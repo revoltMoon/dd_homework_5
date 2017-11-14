@@ -8,13 +8,10 @@
 
 #import "TableViewController.h"
 #import "ViewController.h"
-@import UIKit;
 @interface TableViewController ()
 @end
-
+//импорты в файле реализации
 @implementation TableViewController
-ViewController* contr;
-NSMutableArray *array;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
@@ -51,9 +48,12 @@ NSMutableArray *arrForReturn;
     }
 }
 
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return YES if you want the specified item to be editable.
-    return YES;
+-(void)dealloc{
+    contr = nil;
+    array = nil;
+    [contr autorelease];
+    [array autorelease];
+    
+    [super dealloc];
 }
 @end

@@ -7,5 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface TableViewController : UITableViewController
+@class ViewController;
+@interface TableViewController : UITableViewController{
+    ViewController* contr;
+    NSMutableArray *array;
+}
 @end

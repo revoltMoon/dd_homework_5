@@ -6,9 +6,10 @@
 //  Copyright © 2017 Влад Купряков. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
+@import UIKit;
+@interface ViewController : UIViewController{
+    
+}
 @property (assign, nonatomic) IBOutlet UITextView *textField;
 -(NSMutableArray *)returnArr;
 -(void)takeIdx:(NSInteger *)idx;

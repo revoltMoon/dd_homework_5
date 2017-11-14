@@ -13,15 +13,16 @@
 @end
 
 @implementation ViewController
+
 NSMutableArray *ar;
 NSMutableArray<NSValue*>* arForRange;
-NSAttributedString* stringg;
+NSAttributedString* stringForTextViewAtrText;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     ar = [[NSMutableArray alloc]init];
     arForRange = [[NSMutableArray alloc]init];
-    stringg = [[NSAttributedString alloc]init];
+    stringForTextViewAtrText = [[NSAttributedString alloc]init];
 }
 
 -(void)addColor:(UIColor *)color
@@ -33,12 +34,13 @@ NSAttributedString* stringg;
  //чтобы не прокручивалось в конец UITextView при изменении цвета
     _textField.scrollEnabled = NO;
     NSRange range = _textField.selectedRange;
-    _textField.attributedText = str;
+        _textField.attributedText = nil;
+        stringForTextViewAtrText = nil;
+    _textField.attributedText = [str copy];
+    stringForTextViewAtrText = [str copy];
     _textField.selectedRange = range;
     _textField.scrollEnabled = YES;
     //чтобы использовать строку для изменения текста в UITextView при возможном удалении элементов
-    stringg = _textField.attributedText;
-    [stringg retain];
     [str release];
 }
 
@@ -73,17 +75,19 @@ NSAttributedString* stringg;
     //удаляем из массива строчку, которую удалили в UITableView
     [ar removeObjectAtIndex:(int)idx];
     //создаем строку, чтобы закрасить черным цветом то место, где была удаленная нами строка
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:stringg];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString:stringForTextViewAtrText];
     NSRange Range = arForRange[(int)idx].rangeValue;
     [str addAttribute:NSForegroundColorAttributeName value:UIColor.blackColor range:Range];
-    stringg = str;
+    stringForTextViewAtrText = nil;
+    stringForTextViewAtrText = [str copy];
     [arForRange removeObjectAtIndex:(int)idx];
+    [str release];
 }
 -(void)viewWillAppear:(BOOL)animated{
     //перед показом UIViewControllera меняем наш текст в UITextView
-    if (stringg.length > 0)
+    if (stringForTextViewAtrText.length > 0)
         {
-            _textField.attributedText = stringg;
+            _textField.attributedText = stringForTextViewAtrText;
         }
     [super viewWillAppear:true];
 }
@@ -111,6 +115,9 @@ NSAttributedString* stringg;
     // Dispose of any resources that can be recreated.
 }
 -(void)dealloc{
+    [ar release];
+    [arForRange release];
+    [stringForTextViewAtrText release];
     [super dealloc];
 }
 @end
